@@ -44,42 +44,7 @@ that acts as your personal financial research analyst. Ask it anything about:
 
 ## Architecture
 
-```
-User Query
-    │
-    ▼
-┌─────────────┐
-│ Router Node │  ← Classifies query type, extracts ticker symbol
-└──────┬──────┘
-       │
-       ├── (sec / rag / general)
-       │         │
-       │         ▼
-       │  ┌──────────────────┐
-       │  │ RAG Retrieval    │  ← Queries ChromaDB vector store
-       │  │ Node             │    (cosine similarity over SEC filings)
-       │  └────────┬─────────┘
-       │           │
-       └───────────┤
-                   ▼
-        ┌─────────────────────┐
-        │  Tool-Calling Agent │  ← GPT-4o-mini + 5 financial tools
-        │  Node               │    System prompt includes RAG context
-        └────────┬────────────┘
-                 │
-         ┌───────┴────────┐
-         │  Tool calls?   │
-        YES               NO
-         │                │
-         ▼                ▼
-   ┌───────────┐   ┌───────────────┐
-   │ Tool Node │   │ Synthesis Node│  ← Composes final answer
-   └─────┬─────┘   └───────┬───────┘
-         │                 │
-         └────────┬────────┘
-                  ▼
-           Final Answer
-```
+![Architecture](assets/Architecture.png)
 
 ### Agent Flow Summary
 
