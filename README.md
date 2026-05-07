@@ -44,7 +44,7 @@ that acts as your personal financial research analyst. Ask it anything about:
 
 ## Architecture
 
-![Architecture](assets/architecture.png)
+![Architecture](assets/Architecture.png)
 
 ### Agent Flow Summary
 
