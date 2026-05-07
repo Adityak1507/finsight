@@ -21,9 +21,9 @@ TOP_K = 5
 SEC_HEADERS = {"User-Agent": "FinSight Research Tool research@finsight.ai"}
 
 
-# ─────────────────────────────────────────────
+
 # ChromaDB Client + Collection
-# ─────────────────────────────────────────────
+
 
 def get_chroma_collection():
     """Initialize ChromaDB client and return the SEC filings collection."""
@@ -39,9 +39,9 @@ def get_chroma_collection():
     return collection
 
 
-# ─────────────────────────────────────────────
+
 # Text Chunking
-# ─────────────────────────────────────────────
+
 
 def chunk_text(text: str, chunk_size: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> List[str]:
     """
@@ -68,9 +68,9 @@ def chunk_text(text: str, chunk_size: int = CHUNK_SIZE, overlap: int = CHUNK_OVE
     return chunks
 
 
-# ─────────────────────────────────────────────
+
 # SEC Filing Fetcher
-# ─────────────────────────────────────────────
+
 
 def get_cik_for_ticker(ticker: str) -> Optional[str]:
     """Resolve ticker to SEC CIK number."""
@@ -146,9 +146,9 @@ def fetch_filing_text(url: str, max_chars: int = 50000) -> str:
         return ""
 
 
-# ─────────────────────────────────────────────
+
 # Ingestion Pipeline
-# ─────────────────────────────────────────────
+
 
 def ingest_ticker(ticker: str, filing_type: str = "10-K", limit: int = 2) -> Dict:
     """
@@ -231,9 +231,9 @@ def ingest_ticker(ticker: str, filing_type: str = "10-K", limit: int = 2) -> Dic
     }
 
 
-# ─────────────────────────────────────────────
+
 # Retrieval
-# ─────────────────────────────────────────────
+
 
 def retrieve_context(query: str, ticker: Optional[str] = None, top_k: int = TOP_K) -> List[Dict]:
     """

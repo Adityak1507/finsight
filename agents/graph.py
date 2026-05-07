@@ -16,9 +16,9 @@ from tools.financial_tools import ALL_TOOLS
 from rag.pipeline import retrieve_context, format_context_for_prompt
 
 
-# ─────────────────────────────────────────────
+
 # State Definition
-# ─────────────────────────────────────────────
+
 
 class FinSightState(TypedDict):
     messages: Annotated[List[BaseMessage], operator.add]
@@ -32,9 +32,9 @@ class FinSightState(TypedDict):
     error: Optional[str]
 
 
-# ─────────────────────────────────────────────
+
 # LLM Setup
-# ─────────────────────────────────────────────
+
 
 def get_llm(temperature: float = 0.0):
     return ChatOpenAI(model="gpt-4o-mini", temperature=temperature)
@@ -44,9 +44,9 @@ def get_llm_with_tools():
     return llm.bind_tools(ALL_TOOLS)
 
 
-# ─────────────────────────────────────────────
+
 # Node 1: Router
-# ─────────────────────────────────────────────
+
 
 ROUTER_PROMPT = """You are a financial query router. Classify the user's query into exactly one category:
 
@@ -93,9 +93,7 @@ def router_node(state: FinSightState) -> FinSightState:
     }
 
 
-# ─────────────────────────────────────────────
 # Node 2: RAG Retrieval
-# ─────────────────────────────────────────────
 
 def rag_retrieval_node(state: FinSightState) -> FinSightState:
     """Retrieve relevant SEC filing context from ChromaDB."""
@@ -108,9 +106,7 @@ def rag_retrieval_node(state: FinSightState) -> FinSightState:
     return {**state, "rag_context": context}
 
 
-# ─────────────────────────────────────────────
 # Node 3: Tool-Calling Agent
-# ─────────────────────────────────────────────
 
 AGENT_SYSTEM = """You are FinSight, an expert financial research analyst AI.
 
@@ -148,16 +144,15 @@ def tool_agent_node(state: FinSightState) -> FinSightState:
     }
 
 
-# ─────────────────────────────────────────────
+
 # Node 4: Tool Executor
-# ─────────────────────────────────────────────
+
 
 tool_node = ToolNode(ALL_TOOLS)
 
 
-# ─────────────────────────────────────────────
+
 # Node 5: Synthesis
-# ─────────────────────────────────────────────
 
 SYNTHESIS_PROMPT = """You are FinSight, a professional financial research analyst.
 
@@ -199,9 +194,9 @@ def synthesis_node(state: FinSightState) -> FinSightState:
     }
 
 
-# ─────────────────────────────────────────────
+
 # Edge Conditions
-# ─────────────────────────────────────────────
+
 
 def should_use_rag(state: FinSightState) -> str:
     """Decide whether to run RAG retrieval."""
@@ -225,9 +220,9 @@ def should_continue_or_synthesize(state: FinSightState) -> str:
     return "synthesize"
 
 
-# ─────────────────────────────────────────────
+
 # Build Graph
-# ─────────────────────────────────────────────
+
 
 def build_finsight_graph():
     graph = StateGraph(FinSightState)
@@ -268,9 +263,9 @@ def build_finsight_graph():
     return graph.compile()
 
 
-# ─────────────────────────────────────────────
+
 # Public API
-# ─────────────────────────────────────────────
+
 
 _graph = None
 
